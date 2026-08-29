@@ -1,0 +1,11 @@
+#-----------------------------
+#  EXAMPLE VALUES
+#-----------------------------
+# The target AWS Region for resource deployment
+aws_region = "us-east-1"
+
+# Target environment identifier (e.g., dev, staging, prod)
+environment = "dev"
+
+# Naming prefix used across all provisioned AWS resources
+project_name = "serverless-pipeline"

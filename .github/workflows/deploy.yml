@@ -1,0 +1,45 @@
+name: Deploy Serverless Microservice
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Terraform Deploy
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets[format('{0}', 'AWS_ACCESS_KEY_ID')] }}
+          aws-secret-access-key: ${{ secrets[format('{0}', 'AWS_SECRET_ACCESS_KEY')] }}
+          aws-region: ${{ vars[format('{0}', 'AWS_REGION')] || 'us-east-1' }}
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false -var-file=terraform.tfvars

@@ -1,0 +1,10 @@
+# Terraform local state and modules
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!*.tfvars.example
+
+# OS / IDE files
+.DS_Store
+.vscode/
