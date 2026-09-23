@@ -8,3 +8,6 @@
 # OS / IDE files
 .DS_Store
 .vscode/
+
+# Zip files
+*.zip
